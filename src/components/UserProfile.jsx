@@ -3,7 +3,7 @@ import { AiOutlineLogout } from 'react-icons/ai'
 import { useParams, useNavigate } from 'react-router-dom'
 import { googleLogout } from '@react-oauth/google'
 
-import { useCreatedPinsQuery, userCreatedPinsQuery, userQuery, userSavedPinsQuery } from '../utils/data'
+import { userCreatedPinsQuery, userQuery, userSavedPinsQuery } from '../utils/data'
 import { client } from '../client'
 import MasonryLayout from './MasonryLayout'
 import Spinner from './Spinner'
@@ -53,26 +53,26 @@ const UserProfile = () => {
   }
 
   return (
-    <div className='relative pb-2 h-full justify-center items-center'>
+    <div className='relative items-center justify-center h-full pb-2'>
       <div className='flex flex-col pb-5'>
         <div className='relative flex flex-col mb-7'>
-          <div className='flex flex-col justify-center items-center'>
+          <div className='flex flex-col items-center justify-center'>
             <img 
               src={randomImage}
-              className="w-full h-370 2xl:h-510 shadow-lg object-cover"
+              className="object-cover w-full shadow-lg h-370 2xl:h-510"
               alt='banner-pic'
             />
             <img 
-              className='rounded-full w-20 h-20 -mt-10 shadow-xl object-cover'
+              className='object-cover w-20 h-20 -mt-10 rounded-full shadow-xl'
               src={user.image}
               alt="user-pic"
             />
-            <h1 className='font-bold text-3xl text-center mt-3'>{user.userName}</h1>
-            <div className='absolute top-0 z-1 right-0 p-2'>
+            <h1 className='mt-3 text-3xl font-bold text-center'>{user.userName}</h1>
+            <div className='absolute top-0 right-0 p-2 z-1'>
               {userId === user._id && (
                 <button
                   type="button"
-                  className='bg-white p-2 rounded-full cursor-pointer outline-none shadow-md'
+                  className='p-2 bg-white rounded-full shadow-md outline-none cursor-pointer'
                  onClick={() => {
                   googleLogout()
                   localStorage.clear()
@@ -113,7 +113,7 @@ const UserProfile = () => {
               <MasonryLayout pins={pins} />
             </div>
           ) : (
-            <div className='flex justify-center font-bold items-center w-full text-xl mt-2'>
+            <div className='flex items-center justify-center w-full mt-2 text-xl font-bold'>
               No Pins Found!
             </div>
           )}

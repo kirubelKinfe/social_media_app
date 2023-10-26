@@ -7,6 +7,7 @@ import { client, urlFor } from '../client'
 import MasonryLayout from './MasonryLayout'
 import { pinDetailMorePinQuery, pinDetailQuery } from '../utils/data'
 import Spinner from './Spinner'
+import { HiUserCircle } from 'react-icons/hi'
 
 const PinDetail = ({ user }) => {
   const [pins, setPins] = useState(null)
@@ -66,24 +67,24 @@ const PinDetail = ({ user }) => {
 
   return (
     <>
-      <div className='flex xl-flex-row flex-col m-auto bg-white' style={{ maxWidth: '1500px', borderRadius: '32px' }}>
-        <div className='flex justify-center items-center md:items-start flex-initial'>
+      <div className='flex flex-col m-auto bg-white xl-flex-row' style={{ maxWidth: '1500px', borderRadius: '32px' }}>
+        <div className='flex items-center justify-center flex-initial md:items-start'>
           <img 
             src={pinDetail?.image && urlFor(pinDetail.image).url()}
-            className="rounded-t-3xl rounded-bl-lg"
+            className="rounded-bl-lg rounded-t-3xl"
             alt='user-post'
           />
         </div>
-        <div className='w-full p-5 flex-1 xl:min-w-620'>
+        <div className='flex-1 w-full p-5 xl:min-w-620'>
           <div className='flex items-center justify-between'>
-            <div className='flex gap-2 items-center'>
+            <div className='flex items-center gap-2'>
               <a
                 href={`${pinDetail.image?.asset?.url}?dl=`}
                 download
                 onClick={(e) => {
                         e.stopPropagation();
                       }}
-                className="bg-white w-9 h-9 p-2 rounded-full flex items-center justify-center text-dark text-xl opacity-75 hover:opacity-100 hover:shadow-md outline-none"
+                className="flex items-center justify-center p-2 text-xl bg-white rounded-full outline-none opacity-75 w-9 h-9 text-dark hover:opacity-100 hover:shadow-md"
               >
                 <MdDownloadForOffline />
               </a>
@@ -91,24 +92,30 @@ const PinDetail = ({ user }) => {
             <a href={pinDetail.destination} target="_blank" rel='noreferrer'>{pinDetail.destination}
             </a>
           </div>
+
           <div>
-            <h1 className='text-4xl font-bold break-words mt-3'>
+            <h1 className='mt-3 text-4xl font-bold break-words'>
               {pinDetail.title}
             </h1>
             <p className='mt-3'>{pinDetail.about}</p>
           </div>
-          <Link to={`/user-profile/${pinDetail.postedBy?._id}`} className="flex gap-2 mt-5 items-center bg-white rounded-lg">
-            <img
-              className="w-8 h-8 rounded-full object-cover"
-              src={pinDetail.postedBy?.image}
-              alt="user-profile"
-            />
+          <Link to={`/user-profile/${pinDetail.postedBy?._id}`} className="flex items-center gap-2 mt-5 bg-white rounded-lg">
+            {pinDetail.postedBy?.image 
+              ? <img
+                className="object-cover w-8 h-8 rounded-full"
+                src={pinDetail.postedBy?.image}
+                alt="user-profile"
+              />
+              : <HiUserCircle className="h-12 rounded-lg w-14" />
+            }
             <p className="font-semibold capitalize">{pinDetail.postedBy?.userName}</p>
           </Link>
+
           <h1 className='mt-5 text-2xl'>Comments</h1>
-          <div className='max-h-370 overflow-y-auto'>
+
+          <div className='overflow-y-auto max-h-370'>
             {pinDetail?.comments?.map((comment, i) => (
-              <div className="flex gap-2 mt-5 items-center bg-white rounded-lg">
+              <div className="flex items-center gap-2 mt-5 bg-white rounded-lg">
                 <img 
                   src={comment.postedBy.image}
                   alt="user-profile"
@@ -121,16 +128,22 @@ const PinDetail = ({ user }) => {
               </div>
             ))}
           </div>
+
           <div className='flex flex-wrap mt-6 gap3'>
             <Link to={`/user-profile/${pinDetail.postedBy?._id}`}>
-              <img
-                className="w-10 h-10 rounded-full cursor-pointer"
-                src={pinDetail.postedBy?.image}
-                alt="user-profile"
-              />
+              
+              {user?.image
+                ? 
+                <img
+                  className="w-10 h-10 rounded-full cursor-pointer"
+                  src={user?.image}
+                  alt="user-profile"
+                />
+                : <HiUserCircle className="w-10 h-10 rounded-full cursor-pointer" />  
+              }
             </Link>
             <input 
-              className='flex-1 border-gray-100 outline-none border-2 p-2 rounded-2xl focus:border-gray-300'
+              className='flex-1 p-2 border-2 border-gray-100 outline-none rounded-2xl focus:border-gray-300'
               type="text"
               placeholder="Add a comment"
               value={comment}
@@ -138,17 +151,19 @@ const PinDetail = ({ user }) => {
             />
             <button
               type='button'
-              className='bg-red-500 text-white rounded-full px-6 py-2 font-semibold text-base outline-none'
+              className='px-6 py-2 text-base font-semibold text-white bg-red-500 rounded-full outline-none'
               onClick={addComment}
             >
               {addingComment ? 'Posting the comment...' : "Post"}
             </button>
           </div>
+
         </div>
       </div>
+
       {pins?.length > 0 ? (
         <>
-          <h2 className='text-center font-bold text-2xl mt-8 mb-4'>
+          <h2 className='mt-8 mb-4 text-2xl font-bold text-center'>
             More Like this
           </h2>
           <MasonryLayout pins={pins} />

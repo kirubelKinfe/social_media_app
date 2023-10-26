@@ -1,6 +1,5 @@
 import { NavLink, Link } from "react-router-dom"
 import { RiHomeFill } from 'react-icons/ri'
-import { IoIosArrowForward } from 'react-icons/io'
 
 import logo from '../assets/logo.png'
 import { categories } from "../utils/data"
@@ -15,11 +14,11 @@ const Sidebar = ( { user, closeToggle } ) => {
   }
 
   return (
-    <div className="flex flex-col justify-between bg-white h-full overflow-y-scroll min-w-210 hide-scrollbar">
+    <div className="flex flex-col justify-between h-full overflow-y-scroll bg-white min-w-210 hide-scrollbar">
       <div className="flex flex-col">
         <Link
           to="/"
-          className="flex px-5 gap-2 my-6 pt-1 w-190 items-center"
+          className="flex items-center gap-2 px-5 pt-1 my-6 w-190"
           onClick={handleCloseSidebar}
         >
           <img src={logo} alt="logo" className="w-full" />
@@ -32,7 +31,7 @@ const Sidebar = ( { user, closeToggle } ) => {
           >
             <RiHomeFill /> Home
           </NavLink>
-          <h3 className="mt-2 px-5 text-base 2xl:text-xl">Discover Categories</h3>
+          <h3 className="px-5 mt-2 text-base 2xl:text-xl">Discover Categories</h3>
 
           {categories.slice(0, categories.length - 1).map((category) => (
             <NavLink
@@ -50,7 +49,7 @@ const Sidebar = ( { user, closeToggle } ) => {
       {user && (
         <Link
           to={`user-profile/${user._id}`}
-          className="flex my-5 mb-3 gap-2 p-2 items-center bg-white rounded-lg shadow-lg mx-3"
+          className="flex items-center gap-2 p-2 mx-3 my-5 mb-3 bg-white rounded-lg shadow-lg"
           onClick={handleCloseSidebar}
         >
           <img src={user?.image} alt="user-profile" className="w-10 h-10 rounded-full" />
